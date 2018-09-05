@@ -2,6 +2,7 @@ import os
 import numpy as np
 from tqdm import trange
 import tensorflow as tf
+import functools
 from tensorflow.contrib.framework.python.ops import arg_scope
 
 from model import Model
@@ -76,7 +77,7 @@ class Trainer(object):
     print("[*] Training starts...")
     self._summary_writer = None
 
-    sample_num = reduce(lambda x, y: x*y, self.config.sample_image_grid)
+    sample_num = functools.reduce(lambda x, y: x*y, self.config.sample_image_grid)
     idxs = self.rng.choice(len(self.data_loader.synthetic_data_paths), sample_num)
     test_samples = np.expand_dims(np.stack(
         [imread(path) for path in \
